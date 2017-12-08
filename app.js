@@ -9,6 +9,8 @@ var sassMiddleware = require('node-sass-middleware');
 var index = require('./routes/index');
 
 var app = express();
+var cors =require('cors');
+app.use(cors())
 
 require ('dotenv').config();
 
