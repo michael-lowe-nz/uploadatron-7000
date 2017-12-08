@@ -7,12 +7,13 @@ var bodyParser = require('body-parser');
 var sassMiddleware = require('node-sass-middleware');
 
 var index = require('./routes/index');
+var files = require('./s3/index');
 
 var app = express();
 var cors =require('cors');
 app.use(cors())
 
-require ('dotenv').config();
+// require ('dotenv').config();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -32,6 +33,7 @@ app.use(sassMiddleware({
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/api/files', files);
 app.use('/', index);
 
 // catch 404 and forward to error handler
