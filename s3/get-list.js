@@ -20,4 +20,26 @@ s3.listObjects(params, function (err, data) {
      data.CommonPrefixes.forEach(item => {
          fs.appendFile("./files.csv", '\r\n' +  item.Prefix.slice(0, -1) + '.pdf , https://s3-ap-southeast-2.amazonaws.com/mike-hadlee-7000-files/'+ item.Prefix +item.Prefix.slice(0, -1) + '.pdf , ', function(err) {});
      })
+    if (data.NextMarker){
+        console.log(data.NextMarker);
+        params.Marker = data.NextMarker;
+        listobjects(params);
+    }
 });
+
+function listobjects (params) {
+    s3.listObjects(params, function (err, data) {
+        console.log(data);
+        if(err)throw err;
+        data.CommonPrefixes.forEach(item => {
+            fs.appendFile("./files.csv", '\r\n' +  item.Prefix.slice(0, -1) + '.pdf , https://s3-ap-southeast-2.amazonaws.com/mike-hadlee-7000-files/'+ item.Prefix +item.Prefix.slice(0, -1) + '.pdf , ', function(err) {});
+        });
+        if (data.NextMarker){
+            console.log(data.NextMarker);
+            params.Marker = data.NextMarker;
+            listobjects(params);
+        }
+    });
+
+
+};
