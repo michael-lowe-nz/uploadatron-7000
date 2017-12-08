@@ -21,9 +21,10 @@ fs.readdir('./sample-set', function(err, items) {
           Bucket: 'mike-hadlee-7000-files'
         }
       });
+      var folderName = file.replace(".pdf", "")
       s3bucket.createBucket(function() {
         var params = {
-          Key: file,
+          Key: folderName + '/' + file,
           Body: data
         };
         s3bucket.upload(params, function(err, data) {
